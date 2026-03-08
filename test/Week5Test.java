@@ -783,7 +783,8 @@ public class Week5Test {
         // 11.1  Register into a full section
         RegisterCommand fullReg = new RegisterCommand(student, fullSection);
         executor.execute(fullReg);
-        check("11.1 register into full section fails",       !fullReg.wasSuccessful());
+        check(String.format("11.1 register into full section fails %n    %s", fullReg.getErrorMessage()),
+                !fullReg.wasSuccessful());
         check("11.2 error message populated on failure",
                 fullReg.getErrorMessage() != null && !fullReg.getErrorMessage().isEmpty());
 
@@ -792,6 +793,9 @@ public class Week5Test {
         check("11.3 undo on empty stack returns false",      !executor.undo());
 
         // 11.4  Redo with empty stack
+        // The 11.3 drain filled the redo stack as a side effect. Drain it here so
+        // that 11.4 actually tests redo() against an empty stack, which was the intent.
+        while (executor.canRedo()) executor.redo();
         check("11.4 redo on empty stack returns false",      !executor.redo());
 
         // 11.5  Negative payment amount
