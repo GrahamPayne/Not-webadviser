@@ -806,8 +806,11 @@ public class Week5Test {
 
         // 11.6  peekUndoDescription returns null when stack is empty
         while (executor.canUndo()) executor.undo();
+
         check("11.6 peekUndo null when stack empty",         executor.peekUndoDescription() == null);
+        while (executor.canRedo()) executor.redo();
         check("11.7 peekRedo null when stack empty",         executor.peekRedoDescription() == null);
+        System.out.println("");
 
         // 11.8  MacroCommand with zero sub-commands
         MacroCommand emptyMacro = new MacroCommand("Empty macro");
